@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}AI Student Stress Detection{% endblock %}
+{% block content %}
+<section class="hero-section d-flex align-items-center text-center text-white"><div class="container hero-content">
+<span class="eyebrow mb-4"><i class="bi bi-stars"></i> AI-POWERED STUDENT WELL-BEING</span>
+<h1 class="hero-title fw-bold mb-4">Understand your stress.<br><span class="gradient-text">Take care of yourself.</span></h1>
+<p class="hero-subtitle mb-4">A smart student stress assessment that analyzes academic, sleep, digital, physical and emotional factors to provide an easy-to-understand stress indicator and personalized guidance.</p>
+<div class="d-flex flex-wrap justify-content-center gap-3">
+{% if user.is_authenticated %}<a href="/assessment/" class="btn btn-success btn-hero"><i class="bi bi-play-fill me-2"></i>Start Assessment</a><a href="/dashboard/" class="btn btn-outline-light btn-hero">Open Dashboard <i class="bi bi-arrow-right ms-2"></i></a>{% else %}<a href="/signup/" class="btn btn-success btn-hero"><i class="bi bi-rocket-takeoff me-2"></i>Get Started</a><a href="/login/" class="btn btn-outline-light btn-hero">I already have an account</a>{% endif %}
+</div>
+<div class="d-flex justify-content-center flex-wrap gap-4 mt-5 small text-white-50"><span><i class="bi bi-shield-check me-1"></i> Educational & awareness focused</span><span><i class="bi bi-clock me-1"></i> 2–3 minute assessment</span><span><i class="bi bi-cpu me-1"></i> Machine Learning</span></div>
+</div></section>
+
+<section class="stats-wrap"><div class="container"><div class="row g-3">
+<div class="col-md-4"><div class="stat-card text-center"><div class="card-body py-4"><div class="stat-icon mb-3"><i class="bi bi-ui-checks-grid"></i></div><h3 class="fw-bold mb-1">15</h3><p class="text-muted mb-0">Assessment factors</p></div></div></div>
+<div class="col-md-4"><div class="stat-card text-center"><div class="card-body py-4"><div class="stat-icon mb-3"><i class="bi bi-graph-up-arrow"></i></div><h3 class="fw-bold mb-1">3</h3><p class="text-muted mb-0">Stress levels: Low · Moderate · High</p></div></div></div>
+<div class="col-md-4"><div class="stat-card text-center"><div class="card-body py-4"><div class="stat-icon mb-3"><i class="bi bi-lightbulb"></i></div><h3 class="fw-bold mb-1">AI</h3><p class="text-muted mb-0">Personalized insights & tips</p></div></div></div>
+</div></div></section>
+
+<section class="py-5"><div class="container py-4"><div class="text-center mb-5"><div class="section-label mb-2">What you get</div><h2 class="section-title">More than a simple stress test</h2><p class="section-subtitle">The upgraded assessment combines multiple dimensions of student life so the result is easier to understand and more useful for self-awareness.</p></div>
+<div class="row g-4">
+<div class="col-md-4"><div class="card feature-card h-100"><div class="card-body p-4"><div class="feature-icon mb-4"><i class="bi bi-cpu-fill"></i></div><h4>AI Stress Estimation</h4><p>Analyze multiple student lifestyle and well-being factors using machine learning.</p></div></div></div>
+<div class="col-md-4"><div class="card feature-card h-100"><div class="card-body p-4"><div class="feature-icon mb-4"><i class="bi bi-bar-chart-fill"></i></div><h4>Factor Analysis</h4><p>Visualize important factors such as academic pressure, sleep, anxiety and fatigue.</p></div></div></div>
+<div class="col-md-4"><div class="card feature-card h-100"><div class="card-body p-4"><div class="feature-icon mb-4"><i class="bi bi-lightbulb-fill"></i></div><h4>Personalized Guidance</h4><p>Get practical recommendations connected to your individual responses.</p></div></div></div>
+</div></div></section>
+
+<section class="py-5 bg-white"><div class="container py-4"><div class="text-center mb-5"><div class="section-label mb-2">Simple process</div><h2 class="section-title">How it works</h2></div><div class="row g-4 text-center">
+<div class="col-md-3"><div class="step-card"><div class="step-number">1</div><h5>Create Account</h5><p class="text-muted small">Register as a student and securely access your dashboard.</p></div></div>
+<div class="col-md-3"><div class="step-card"><div class="step-number">2</div><h5>Answer Questions</h5><p class="text-muted small">Share information about academic and lifestyle factors.</p></div></div>
+<div class="col-md-3"><div class="step-card"><div class="step-number">3</div><h5>AI Analysis</h5><p class="text-muted small">The ML model estimates your current stress level.</p></div></div>
+<div class="col-md-3"><div class="step-card"><div class="step-number">4</div><h5>Understand & Act</h5><p class="text-muted small">Explore your factors, history and personalized suggestions.</p></div></div>
+</div></div></section>
+
+<section class="sdg-section py-5"><div class="container py-4 text-center position-relative" style="z-index:2"><div class="section-label text-white-50 mb-2">SDG PROJECT</div><h2 class="fw-bold">Supporting Student Health & Well-being</h2><p class="mx-auto mt-3" style="max-width:720px;color:rgba(255,255,255,.75);line-height:1.8">This project supports <strong>SDG 3 – Good Health and Well-being</strong> and connects with <strong>SDG 4 – Quality Education</strong> by promoting student self-awareness and healthier academic routines.</p></div></section>
+<footer class="footer py-4"><div class="container text-center"><p class="mb-1">© 2026 AI Mental Stress Detection System</p><small>Built for student well-being awareness using AI & Machine Learning.</small></div></footer>
+{% endblock %}

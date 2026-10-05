@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <div class="form-card assessment-card shadow-lg">
+        <div class="text-center mb-4">
+          <div class="assessment-icon"><i class="bi bi-heart-pulse-fill"></i></div>
+          <h2 class="page-title mb-2">AI Student Stress Assessment</h2>
+          <p class="text-muted mb-1">Answer questions about your academic routine, health, digital habits and emotional well-being.</p>
+          <span class="badge bg-light text-primary">Estimated time: 2–3 minutes</span>
+        </div>
+        {% if errors %}<div class="alert alert-danger">{% for error in errors %}<div>{{ error }}</div>{% endfor %}</div>{% endif %}
+        <div class="d-flex justify-content-between small text-muted mb-2"><span>Assessment progress</span><span id="progressPercent">25%</span></div><div class="progress mb-3" style="height:9px"><div id="progressBar" class="progress-bar" style="width:25%"></div></div>
+        <div class="step-label text-center mb-4" id="stepLabel">Step 1 of 4 · Academic Lifestyle</div>
+        <form method="post" id="assessmentForm">{% csrf_token %}
+          <section class="assessment-step">
+            <h4><i class="bi bi-book me-2"></i>Academic Lifestyle</h4><p class="text-muted">Tell us about your study routine and academic pressure.</p>
+            <div class="row g-3">
+              {% include 'assessment_field.html' with name='study_hours' label='Daily Study Hours' min=0 max=24 value=values.study_hours icon='bi-clock' %}
+              {% include 'assessment_field.html' with name='academic_pressure' label='Academic Pressure' min=1 max=10 value=values.academic_pressure icon='bi-exclamation-triangle' %}
+              {% include 'assessment_field.html' with name='deadline_pressure' label='Exam / Deadline Pressure' min=1 max=10 value=values.deadline_pressure icon='bi-calendar-event' %}
+              {% include 'assessment_field.html' with name='attendance_percentage' label='Class Attendance (%)' min=0 max=100 value=values.attendance_percentage icon='bi-person-check' %}
+            </div>
+          </section>
+          <section class="assessment-step d-none">
+            <h4><i class="bi bi-moon-stars me-2"></i>Sleep & Physical Health</h4><p class="text-muted">These factors can influence daily energy and stress management.</p>
+            <div class="row g-3">
+              {% include 'assessment_field.html' with name='sleep_hours' label='Daily Sleep Hours' min=0 max=24 value=values.sleep_hours icon='bi-moon' %}
+              {% include 'assessment_field.html' with name='physical_activity' label='Physical Activity Level' min=1 max=10 value=values.physical_activity icon='bi-activity' %}
+              {% include 'assessment_field.html' with name='fatigue_level' label='Daytime Fatigue' min=1 max=10 value=values.fatigue_level icon='bi-battery-half' %}
+              {% include 'assessment_field.html' with name='social_interaction' label='Social Interaction' min=1 max=10 value=values.social_interaction icon='bi-people' %}
+            </div>
+          </section>
+          <section class="assessment-step d-none">
+            <h4><i class="bi bi-phone me-2"></i>Digital & Lifestyle Habits</h4><p class="text-muted">Include your screen use, relaxation and study-life balance.</p>
+            <div class="row g-3">
+              {% include 'assessment_field.html' with name='screen_time' label='Daily Screen Time (hours)' min=0 max=24 value=values.screen_time icon='bi-phone' %}
+              {% include 'assessment_field.html' with name='relaxation_time' label='Relaxation / Hobby Time (hours)' min=0 max=12 value=values.relaxation_time icon='bi-controller' %}
+              {% include 'assessment_field.html' with name='study_life_balance' label='Study-Life Balance' min=1 max=10 value=values.study_life_balance icon='bi-balance-scale' %}
+            </div>
+          </section>
+          <section class="assessment-step d-none">
+            <h4><i class="bi bi-emoji-smile me-2"></i>Emotional Well-being</h4><p class="text-muted">These questions capture your current self-reported emotional and cognitive state.</p>
+            <div class="row g-3">
+              {% include 'assessment_field.html' with name='mood_level' label='Overall Mood' min=1 max=10 value=values.mood_level icon='bi-emoji-smile' %}
+              {% include 'assessment_field.html' with name='anxiety_level' label='Anxiety / Nervousness' min=1 max=10 value=values.anxiety_level icon='bi-heartbreak' %}
+              {% include 'assessment_field.html' with name='concentration_difficulty' label='Concentration Difficulty' min=1 max=10 value=values.concentration_difficulty icon='bi-bullseye' %}
+              {% include 'assessment_field.html' with name='emotional_support' label='Emotional Support' min=1 max=10 value=values.emotional_support icon='bi-chat-heart' %}
+            </div>
+          </section>
+          <div class="d-flex justify-content-between mt-4"><button type="button" id="prevBtn" class="btn btn-outline-secondary" disabled>Previous</button><button type="button" id="nextBtn" class="btn btn-primary">Next <i class="bi bi-arrow-right"></i></button><button type="submit" id="submitBtn" class="btn btn-success d-none"><i class="bi bi-graph-up-arrow me-1"></i> Analyze My Stress</button></div>
+        </form>
+        <div class="small text-muted mt-4"><i class="bi bi-info-circle me-1"></i>This is an educational AI-based stress indicator, not a medical diagnosis.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const steps=[...document.querySelectorAll('.assessment-step')], bar=document.getElementById('progressBar'), label=document.getElementById('stepLabel'), prev=document.getElementById('prevBtn'), next=document.getElementById('nextBtn'), submit=document.getElementById('submitBtn'); let current=0;
+const labels=['Academic Lifestyle','Sleep & Physical Health','Digital & Lifestyle','Emotional Well-being'];
+function showStep(){steps.forEach((s,i)=>s.classList.toggle('d-none',i!==current)); bar.style.width=((current+1)/steps.length*100)+'%'; label.textContent=`Step ${current+1} of ${steps.length} · ${labels[current]}`; document.getElementById('progressPercent').textContent=Math.round((current+1)/steps.length*100)+'%'; prev.disabled=current===0; next.classList.toggle('d-none',current===steps.length-1); submit.classList.toggle('d-none',current!==steps.length-1);}
+next.onclick=()=>{if(current<steps.length-1){current++;showStep();window.scrollTo({top:200,behavior:'smooth'});}}; prev.onclick=()=>{if(current>0){current--;showStep();window.scrollTo({top:200,behavior:'smooth'});}}; showStep();
+document.querySelectorAll('input[type=range]').forEach(input=>{const out=document.getElementById(input.name+'Value'); const update=()=>out.textContent=input.value; input.addEventListener('input',update); update();});
+</script>
+{% endblock %}
